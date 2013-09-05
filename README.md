@@ -2,7 +2,7 @@
 
 ##Installation
 
-Add it using [composer](http://getcomposer.org/) :
+Add it using [Composer](http://getcomposer.org/) :
 
 ```json
 {
@@ -12,7 +12,7 @@ Add it using [composer](http://getcomposer.org/) :
 }
 ```
 
-and until this package is registered at Packagist add the repository
+and until this package is registered at [Packagist](https://packagist.org/) add the repository
 
 ```json
 {
