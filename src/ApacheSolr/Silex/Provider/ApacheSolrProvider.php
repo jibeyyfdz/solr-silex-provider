@@ -41,7 +41,7 @@ use ApacheSolr\Service\SearchService;
  *
  * @author magdev
  */
-class AssimpServiceProvider implements ServiceProviderInterface
+class ApacheSolrProvider implements ServiceProviderInterface
 {
     public function boot(Application $app)
     {
