@@ -44,22 +44,6 @@ class IndexerService extends AbstractService
 	protected $search = null;
 
 	
-	
-	/**
-	 * Constructor
-	 *
-	 * @param array $options
-	 * @param \ApacheSolr\Service\SearchService $search
-	 */
-	public function __construct(array $options = null, SearchService $search = null)
-	{
-		parent::__construct($options);
-		if (!is_null($search)) {
-			$this->setSearch($search);
-		}
-	}
-	
-	
 	/**
 	 * Set the search client
 	 *

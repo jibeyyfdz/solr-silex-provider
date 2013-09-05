@@ -32,7 +32,6 @@
 namespace ApacheSolr\Service;
 
 use Silex\Application;
-use Silex\Application;
 
 
 /**

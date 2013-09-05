@@ -50,35 +50,14 @@ class ApacheSolrProvider implements ServiceProviderInterface
 
     public function register(Application $app)
     {
-    	$defaultOptions = array(
-    	    'hostname' => 'localhost',
-    		'port' => 8983,
-    		'secure' => false,
-    		'username' => null,
-    		'password' => null,
-    		'timeout' => 10,
-    		'ssl_cert' => null,
-    		'ssl_cert_only' => null,
-    		'ssl_key' => null,
-    		'ssl_keypassword' => null,
-    		'ssl_cainfo' => null,
-    		'ssl_capath' => null,
-    	);
-    	if (!isset($app['solr.options'])) {
-    		$app['solr.options'] = array();
-    	}
-    	foreach ($defaultOptions as $key => $value) {
-    		if (!isset($app['solr.options'][$key])) {
-    			$app['solr.options'][$key] = $value;
-    		}
-    	}
-        
         $app['solr.search'] = $app->share(function(Application $app) {
         	return new SearchService($app['solr.options']);
         });
         
         $app['solr.indexer'] = $app->share(function(Application $app) {
-        	return new IndexerService($app['solr.options'], $app['solr.search']);
+        	$indexer = new IndexerService($app['solr.options']);
+        	$indexer->setSearch($app['solr.search']);
+        	return $indexer;
         });
         	
     }
