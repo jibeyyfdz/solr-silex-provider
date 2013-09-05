@@ -78,7 +78,7 @@ class ApacheSolrProvider implements ServiceProviderInterface
         });
         
         $app['solr.indexer'] = $app->share(function(Application $app) {
-        	return new IndexerService($app['solr.options']);
+        	return new IndexerService($app['solr.options'], $app['solr.search']);
         });
         	
     }
