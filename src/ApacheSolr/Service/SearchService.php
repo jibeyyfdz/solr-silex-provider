@@ -40,19 +40,49 @@ use ApacheSolr\Document\DocumentInterface;
  */
 class SearchService extends AbstractService
 {
-	public function query($query, $start = 0, $limit = 50)
+	/**
+	 * Perform a query
+	 *
+	 * @param string|\SolrQuery $query
+	 * @param int $start
+	 * @param int $limit
+	 * @return \SolrQueryResponse
+	 */
+	public function query($query, $start = 0, $limit = 50, array $fields = array())
 	{
 		if (!$query instanceof \SolrQuery) {
 			$q = new \SolrQuery();
 			$q->setQuery($query);
 			$query = $q;
 		}
-		$query->setStart($start);
-		$query->setRows($limit);
-		
+		/* @var $query \SolrQuery */
+		$query->setStart($start)
+			->setRows($limit);
+		if (sizeof($fields)) {
+			foreach ($fields as $field) {
+				$query->addField($field);
+			}
+		}
 		
 		$response = $this->getClient()->query($query);
 		$response->setParseMode(\SolrQueryResponse::PARSE_SOLR_DOC);
-		return $response->getResponse();
+		return $response;
+	}
+	
+	
+	
+	/**
+	 * Get a single document
+	 *
+	 * @param int $id
+	 * @return \SolrDocument
+	 */
+	public function getDocument($id)
+	{
+		$result = $this->query('id:'.$id, 0, 1)->getResponse();
+		if (isset($result['docs']) && isset($result['docs'][0])) {
+			return $result['docs'][0];
+		}
+		return null;
 	}
 }
