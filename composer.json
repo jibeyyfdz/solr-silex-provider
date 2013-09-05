@@ -19,7 +19,6 @@
 		"MIT"
 	],
 	"require" : {
-		"symfony/console" : "~2.3",
 		"php" : ">=5.4",
 		"ext-solr" : "~1.0.0",
 		"silex/silex" : "~1.0"
@@ -31,8 +30,5 @@
 	},
 	"config" : {
 		"bin-dir" : "bin/"
-	},
-	"bin" : [
-		"bin/solr.php"
-	]
+	}
 }

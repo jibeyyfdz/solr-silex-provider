@@ -73,12 +73,12 @@ class AssimpServiceProvider implements ServiceProviderInterface
     		}
     	}
         
-        $app['solr.indexer'] = $app->share(function(Application $app) {
-        	return new IndexerService($app['solr.options']);
-        });
-        
         $app['solr.search'] = $app->share(function(Application $app) {
         	return new SearchService($app['solr.options']);
+        });
+        
+        $app['solr.indexer'] = $app->share(function(Application $app) {
+        	return new IndexerService($app['solr.options']);
         });
         	
     }
