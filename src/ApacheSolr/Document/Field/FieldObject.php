@@ -55,10 +55,11 @@ class FieldObject implements FieldInterface
 	 * Constructor
 	 *
 	 * @param string $name
-	 * @param string $value
+	 * @param mixed $value
+	 * @param mixed $default
 	 * @param float $boost
 	 */
-	public function __construct($name, $value, $boost = 1.0, $default = null)
+	public function __construct($name, $value, $default = null, $boost = 1.0)
 	{
 		$this->setName($name)
 			->setValue($value)
