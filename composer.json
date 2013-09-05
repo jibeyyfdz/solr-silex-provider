@@ -31,5 +31,8 @@
 	},
 	"config" : {
 		"bin-dir" : "bin/"
-	}
+	},
+	"bin" : [
+		"bin/solr.php"
+	]
 }
