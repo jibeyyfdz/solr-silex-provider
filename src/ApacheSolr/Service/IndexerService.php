@@ -40,6 +40,55 @@ use ApacheSolr\Document\DocumentInterface;
  */
 class IndexerService extends AbstractService
 {
+	/** @var ApacheSolr\Service\SearchService */
+	protected $search = null;
+
+	
+	
+	/**
+	 * Constructor
+	 *
+	 * @param array $options
+	 * @param \ApacheSolr\Service\SearchService $search
+	 */
+	public function __construct(array $options = null, SearchService $search = null)
+	{
+		parent::__construct($options);
+		if (!is_null($search)) {
+			$this->setSearch($search);
+		}
+	}
+	
+	
+	/**
+	 * Set the search client
+	 *
+	 * @param \ApacheSolr\Service\SearchService $search
+	 * @return \ApacheSolr\Service\IndexerService
+	 */
+	public function setSearch(SearchService $search)
+	{
+		$this->search = $search;
+		return $this;
+	}
+	
+	
+	/**
+	 * Get the search client
+	 *
+	 * Creates a new SearchService object if none is set
+	 *
+	 * @return \ApacheSolr\Service\SearchService
+	 */
+	protected function getSearch()
+	{
+		if (!$this->search) {
+			$this->search = new SearchService($this->getOptions());
+		}
+		return $this->search;
+	}
+	
+	
 	/**
 	 * Index a document
 	 *
