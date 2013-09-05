@@ -142,7 +142,7 @@ abstract class AbstractService
 	public function __call($method, $args)
 	{
 		if (method_exists($this->getClient(), $method)) {
-			return call_user_method_array($method, $this->getClient(), $args);
+			return call_user_func_array(array($this->getClient(), $method), $args);
 		}
 		throw \BadMethodCallException('Invalid method call: '.__CLASS__.':'.$method);
 	}
