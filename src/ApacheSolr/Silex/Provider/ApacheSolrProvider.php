@@ -1,0 +1,85 @@
+<?php
+/**
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013 Marco Graetsch <magdev3.0@googlemail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @author    magdev
+ * @copyright 2013 Marco Graetsch <magdev3.0@googlemail.com>
+ * @package
+ * @license   http://opensource.org/licenses/MIT MIT License
+ */
+
+
+namespace ApacheSolr\Silex\Provider;
+
+use Silex\Application;
+use Silex\ServiceProviderInterface;
+use ApacheSolr\Service\IndexerService;
+use ApacheSolr\Service\SearchService;
+
+/**
+ * Silex service provider to integrate magdev/php-assimp library.
+ *
+ * @author magdev
+ */
+class AssimpServiceProvider implements ServiceProviderInterface
+{
+    public function boot(Application $app)
+    {
+    	
+    }
+
+    public function register(Application $app)
+    {
+    	$defaultOptions = array(
+    	    'hostname' => 'localhost',
+    		'port' => 8983,
+    		'secure' => false,
+    		'username' => null,
+    		'password' => null,
+    		'timeout' => 10,
+    		'ssl_cert' => null,
+    		'ssl_cert_only' => null,
+    		'ssl_key' => null,
+    		'ssl_keypassword' => null,
+    		'ssl_cainfo' => null,
+    		'ssl_capath' => null,
+    	);
+    	if (!isset($app['solr.options'])) {
+    		$app['solr.options'] = array();
+    	}
+    	foreach ($defaultOptions as $key => $value) {
+    		if (!isset($app['solr.options'][$key])) {
+    			$app['solr.options'][$key] = $value;
+    		}
+    	}
+        
+        $app['solr.index'] = $app->share(function(Application $app) {
+        	return new IndexerService($app['solr.options']);
+        });
+        
+        $app['solr.search'] = $app->share(function(Application $app) {
+        	return new SearchService($app['solr.options']);
+        });
+        	
+    }
+}
