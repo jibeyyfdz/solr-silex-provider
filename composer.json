@@ -1,6 +1,7 @@
 {
 	"name" : "magdev/SilexSolr",
 	"description" : "Silex Service-Provider for Apache Solr",
+	"version" : "0.0.1@dev",
 	"type" : "library",
 	"authors" : [{
 			"name" : "Marco Grätsch",
