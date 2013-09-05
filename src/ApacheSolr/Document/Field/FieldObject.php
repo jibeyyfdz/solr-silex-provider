@@ -45,7 +45,7 @@ class FieldObject implements FieldInterface
 	protected $value;
 	
 	/** @var float */
-	protected $boost = 0.0;
+	protected $boost = 1.0;
 	
 	
 	/**
@@ -55,7 +55,7 @@ class FieldObject implements FieldInterface
 	 * @param string $value
 	 * @param float $boost
 	 */
-	public function __construct($name, $value, $boost = 0.0)
+	public function __construct($name, $value, $boost = 1.0)
 	{
 		$this->setName($name)
 			->setValue($value)
