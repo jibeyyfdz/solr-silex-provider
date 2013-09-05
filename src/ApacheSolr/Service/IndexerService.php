@@ -41,7 +41,7 @@ use ApacheSolr\Document\DocumentInterface;
 class IndexerService extends AbstractService
 {
 	/**
-	 * Index a new document
+	 * Index a document
 	 *
 	 * @param \ApacheSolr\Document\DocumentInterface $document
 	 * @return \SolrUpdateResponse
@@ -57,36 +57,5 @@ class IndexerService extends AbstractService
 		}
 		
 		return $this->getClient()->addDocument($doc);
-	}
-	
-	
-	/**
-	 * Merge a new document into in existing document
-	 *
-	 * @param \ApacheSolr\Document\DocumentInterface $document
-	 * @return \SolrUpdateResponse
-	 */
-	public function merge(DocumentInterface $document)
-	{
-		$query = new \SolrQuery();
-		$query->setQuery('id:'.$document->getId());
-		$query->setStart(0);
-		$query->setRows(1);
-		
-		$response = $this->getClient()->query($query);
-		$response->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
-		$responseObject = $response->getResponse();
-		$doc = $responseObject['docs'][0];
-		if (!$doc) {
-			return $this->index($document);
-		}
-		
-		$newDoc = new \SolrDocument();
-		foreach ($document->getIndexFields() as $field) {
-			/* @var $field \ApacheSolr\Document\Field\FieldInterface */
-			$doc[$field->getName()] = $field->getValue();
-		}
-		$newDoc->merge($doc, true);
-		return $this->getClient()->addDocument($newDoc->getInputDocument(), false);
 	}
 }

@@ -130,4 +130,21 @@ abstract class AbstractService
 		}
 		return $this->client;
 	}
+	
+	
+	/**
+	 * Forward method calls to \SolrClient
+	 *
+	 * @param string $method
+	 * @param array $args
+	 * @return mixed
+	 * @throws \BadMethodCallException
+	 */
+	public function __call($method, $args)
+	{
+		if (method_exists($this->getClient(), $method)) {
+			return call_user_method_array($method, $this->getClient(), $args);
+		}
+		throw \BadMethodCallException('Invalid method call: '.__CLASS__.':'.$method);
+	}
 }
