@@ -48,11 +48,11 @@ interface DocumentInterface
 	
 	
 	/**
-	 * Get the internal Solr-ID
+	 * Get the internal ID
 	 *
 	 * @return int
 	 */
-	public function getSolrId();
+	public function getId();
 	
 	
 	/**
