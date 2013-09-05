@@ -44,6 +44,9 @@ class FieldObject implements FieldInterface
 	/** @var mixed */
 	protected $value;
 	
+	/** @var mixed */
+	protected $default;
+	
 	/** @var float */
 	protected $boost = 1.0;
 	
@@ -55,11 +58,12 @@ class FieldObject implements FieldInterface
 	 * @param string $value
 	 * @param float $boost
 	 */
-	public function __construct($name, $value, $boost = 1.0)
+	public function __construct($name, $value, $boost = 1.0, $default = null)
 	{
 		$this->setName($name)
 			->setValue($value)
-			->setBoost($boost);
+			->setBoost($boost)
+			->setDefault($default);
 	}
 	
 	
@@ -107,6 +111,9 @@ class FieldObject implements FieldInterface
 	 */
 	public function getValue()
 	{
+		if (!$this->value) {
+			return $this->getDefault();
+		}
 	    return $this->value;
 	}
 	
@@ -117,5 +124,29 @@ class FieldObject implements FieldInterface
 	public function getBoost()
 	{
 	    return $this->boost;
+	}
+
+	
+	/**
+	 * Get the default value
+	 *
+	 * @return mixed
+	 */
+	public function getDefault()
+	{
+	    return $this->default;
+	}
+
+	
+	/**
+	 * Set the default value
+	 *
+	 * @param mixed $default
+	 * @return \ApacheSolr\Document\Field\FieldObject
+	 */
+	public function setDefault($default)
+	{
+	    $this->default = $default;
+	    return $this;
 	}
 }
