@@ -35,7 +35,6 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use ApacheSolr\Service\IndexerService;
 use ApacheSolr\Service\SearchService;
-use ApacheSolr\Service\ServerManagerService;
 
 /**
  * Silex service provider to integrate magdev/php-assimp library.
@@ -46,26 +45,18 @@ class ApacheSolrProvider implements ServiceProviderInterface
 {
     public function boot(Application $app)
     {
-    	
+    	$app['solr.indexer']->setSearch($app['solr.search']);
     }
+    
 
     public function register(Application $app)
     {
-    	if (!isset($app['solr.local'])) {
-    		$app['solr.local'] = array();
-    	}
-        $app['solr.search'] = $app->share(function(Application $app) {
+    	$app['solr.search'] = $app->share(function(Application $app) {
         	return new SearchService($app['solr.options']);
         });
         
         $app['solr.indexer'] = $app->share(function(Application $app) {
-        	$indexer = new IndexerService($app['solr.options']);
-        	$indexer->setSearch($app['solr.search']);
-        	return $indexer;
-        });
-        	
-        $app['solr.server_manager'] = $app->share(function(Application $app) {
-        	return new ServerManagerService($app['solr.options'], $app['solr.local']);
+        	return new IndexerService($app['solr.options']);
         });
     }
 }
