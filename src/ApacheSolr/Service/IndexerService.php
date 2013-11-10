@@ -91,4 +91,17 @@ class IndexerService extends AbstractService
 		
 		return $this->getClient()->addDocument($doc);
 	}
+	
+	
+	/**
+	 * Flush the entire index
+	 *
+	 * @return \ApacheSolr\Service\IndexerService
+	 */
+	public function flush()
+	{
+		$this->getClient()->deleteByQuery('*:*');
+		$this->getClient()->commit();
+		return $this;
+	}
 }
