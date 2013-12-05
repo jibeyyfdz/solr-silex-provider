@@ -89,7 +89,7 @@ class SearchService extends AbstractService
 			->setTermsMinCount((int) $minFrequency)
 			->setTermsField($field);
 		
-		$response = $this->getClient()->query($query);
+		$response = $this->getClient()->query($q);
 		$response->setParseMode(\SolrQueryResponse::PARSE_SOLR_OBJ);
 		return $response;
 	}
