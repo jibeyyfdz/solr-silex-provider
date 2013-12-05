@@ -52,12 +52,12 @@ class SearchService extends AbstractService
 	{
 		if (!$query instanceof \SolrQuery) {
 			$q = new \SolrQuery();
-			$q->setQuery($query);
+			$q->setQuery((string) $query);
 			$query = $q;
 		}
 		/* @var $query \SolrQuery */
-		$query->setStart($start)
-			->setRows($limit);
+		$query->setStart((int) $start)
+			->setRows((int) $limit);
 		if (sizeof($fields)) {
 			foreach ($fields as $field) {
 				$query->addField($field);
@@ -76,23 +76,18 @@ class SearchService extends AbstractService
 	 * @param string $query
 	 * @param int $start
 	 * @param int $limit
-	 * @param array $fields
+	 * @param string $field
 	 * @param int $minFrequency
 	 * @return \SolrQueryResponse
 	 */
-	public function suggestions($query, $limit = 10, array $fields = array(), $minFrequency = 5)
+	public function suggestions($query, $limit = 10, $field = 'text', $minFrequency = 2)
 	{
 		$q = new \SolrQuery();
 		$q->setTerms(true)
-			->setTermsLimit($limit)
-			->setTermsPrefix($query)
-			->setTermsMinCount($minFrequency);
-		
-		if (sizeof($fields)) {
-			foreach ($fields as $field) {
-				$query->setTermsField($field);
-			}
-		}
+			->setTermsLimit((int) $limit)
+			->setTermsPrefix((string) $query)
+			->setTermsMinCount((int) $minFrequency)
+			->setTermsField($field);
 		
 		$response = $this->getClient()->query($query);
 		$response->setParseMode(\SolrQueryResponse::PARSE_SOLR_OBJ);
