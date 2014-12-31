@@ -31,8 +31,8 @@
 
 namespace ApacheSolr\Silex\Provider;
 
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use ApacheSolr\Service\IndexerService;
 use ApacheSolr\Service\SearchService;
 
@@ -43,20 +43,16 @@ use ApacheSolr\Service\SearchService;
  */
 class ApacheSolrProvider implements ServiceProviderInterface
 {
-    public function boot(Application $app)
+    public function boot(Container $app)
     {
-    	$app['solr.indexer']->setSearch($app['solr.search']);
+        $app['solr.indexer']->setSearch($app['solr.search']);
     }
     
 
-    public function register(Application $app)
+    public function register(Container $app)
     {
-    	$app['solr.search'] = $app->share(function(Application $app) {
-        	return new SearchService($app['solr.options']);
-        });
+        $app['solr.search'] = new SearchService($app['solr.options']);
         
-        $app['solr.indexer'] = $app->share(function(Application $app) {
-        	return new IndexerService($app['solr.options']);
-        });
+        $app['solr.indexer'] = new IndexerService($app['solr.options']);
     }
 }

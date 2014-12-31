@@ -18,7 +18,7 @@ and until this package is registered at [Packagist](https://packagist.org/) add 
 {
     "repositories" : [{
             "type" : "vcs",
-            "url" : "git@github.com:magdev/solr-silex-provider.git"
+            "url" : "git@github.com:jibeyyfdz/solr-silex-provider.git"
         }
     ]
 }
@@ -33,22 +33,21 @@ use Silex\Application;
 use ApacheSolr\Silex\Provider\ApacheSolrProvider;
 
 $app = new Application();
-$app->register(new ApacheSolrProvider(), array(
-    'solr.options' => array(
-        'hostname' => 'localhost',
-        'port' => 8983,
-        'secure' => false,
-        'username' => null,
-        'password' => null,
-        'timeout' => 10,
-        'ssl_cert' => null,
-        'ssl_cert_only' => null,
-        'ssl_key' => null,
-        'ssl_keypassword' => null,
-        'ssl_cainfo' => null,
-        'ssl_capath' => null,
-    )
-));
+$app['solr.options'] = array (
+    'hostname' => 'localhost',
+    'port' => 8983,
+    'secure' => false,
+    'username' => null,
+    'password' => null,
+    'timeout' => 10,
+    'ssl_cert' => null,
+    'ssl_cert_only' => null,
+    'ssl_key' => null,
+    'ssl_keypassword' => null,
+    'ssl_cainfo' => null,
+    'ssl_capath' => null,
+);
+$app->register(new ApacheSolrProvider());
 ```
 
 ##License
