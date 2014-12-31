@@ -20,7 +20,7 @@
 	],
 	"require" : {
 		"php" : ">=5.3",
-		"ext-solr" : "~1.0.0",
+		"ext-solr" : "~2.0.0",
 		"silex/silex" : "~1.0"
 	},
 	"autoload" : {
